@@ -1,0 +1,6 @@
+# Project exclude paths
+/logistics-common/target/
+/logistics-manager/logistics-manager-dao/target/
+/logistics-manager/logistics-manager-pojo/target/
+/logistics-manager/logistics-manager-service/target/
+/logistics-manager/logistics-manager-web/target/

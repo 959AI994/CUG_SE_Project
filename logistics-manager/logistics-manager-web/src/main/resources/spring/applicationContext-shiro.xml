@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context  
+       http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <!-- 配置凭证匹配器 -->
+    <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher" id="credentialsMatcher">
+        <property name="hashIterations" value="1024" />
+        <property name="hashAlgorithmName" value="md5" />
+    </bean>
+
+    <!-- 注册自定义Realm -->
+    <bean class="com.bobo.realm.MyRealm" id="myRealm" >
+        <property name="credentialsMatcher" ref="credentialsMatcher" />
+    </bean>
+
+    <!-- 注册SecurityManager -->
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="realm" ref="myRealm" />
+    </bean>
+
+    <!-- 配置ShiroFilterFactoryBean -->
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiro">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/login.do" />
+        <property name="successUrl" value="/main" />
+        <property name="filterChainDefinitions" >
+            <value>
+                <!-- 从上往下的加载顺序-->
+                / = anon
+                /login = anon
+                /images/**=anon
+                /css/**=anon
+                /js/**=anon
+                /lib/**=anon
+                /login.do=authc
+                /**=authc
+            </value>
+        </property>
+    </bean>
+
+</beans>

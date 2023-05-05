@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.bobo.pojo.Menu" >
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="parent_menu_id" property="parentMenuId" jdbcType="INTEGER" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_desc" property="menuDesc" jdbcType="VARCHAR" />
+    <result column="menu_link" property="menuLink" jdbcType="VARCHAR" />
+    <result column="security_name" property="securityName" jdbcType="VARCHAR" />
+    <result column="m1" property="m1" jdbcType="VARCHAR" />
+    <result column="m2" property="m2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    menu_id, parent_menu_id, menu_name, menu_desc, menu_link, security_name, m1, m2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bobo.pojo.MenuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_menu
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bobo.pojo.MenuExample" >
+    delete from t_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bobo.pojo.Menu" >
+    insert into t_menu (menu_id, parent_menu_id, menu_name, 
+      menu_desc, menu_link, security_name, 
+      m1, m2)
+    values (#{menuId,jdbcType=INTEGER}, #{parentMenuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuDesc,jdbcType=VARCHAR}, #{menuLink,jdbcType=VARCHAR}, #{securityName,jdbcType=VARCHAR}, 
+      #{m1,jdbcType=VARCHAR}, #{m2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bobo.pojo.Menu" >
+    insert into t_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        menu_id,
+      </if>
+      <if test="parentMenuId != null" >
+        parent_menu_id,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuDesc != null" >
+        menu_desc,
+      </if>
+      <if test="menuLink != null" >
+        menu_link,
+      </if>
+      <if test="securityName != null" >
+        security_name,
+      </if>
+      <if test="m1 != null" >
+        m1,
+      </if>
+      <if test="m2 != null" >
+        m2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="parentMenuId != null" >
+        #{parentMenuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDesc != null" >
+        #{menuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLink != null" >
+        #{menuLink,jdbcType=VARCHAR},
+      </if>
+      <if test="securityName != null" >
+        #{securityName,jdbcType=VARCHAR},
+      </if>
+      <if test="m1 != null" >
+        #{m1,jdbcType=VARCHAR},
+      </if>
+      <if test="m2 != null" >
+        #{m2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bobo.pojo.MenuExample" resultType="java.lang.Integer" >
+    select count(*) from t_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_menu
+    <set >
+      <if test="record.menuId != null" >
+        menu_id = #{record.menuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentMenuId != null" >
+        parent_menu_id = #{record.parentMenuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuName != null" >
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuDesc != null" >
+        menu_desc = #{record.menuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuLink != null" >
+        menu_link = #{record.menuLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.securityName != null" >
+        security_name = #{record.securityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.m1 != null" >
+        m1 = #{record.m1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.m2 != null" >
+        m2 = #{record.m2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_menu
+    set menu_id = #{record.menuId,jdbcType=INTEGER},
+      parent_menu_id = #{record.parentMenuId,jdbcType=INTEGER},
+      menu_name = #{record.menuName,jdbcType=VARCHAR},
+      menu_desc = #{record.menuDesc,jdbcType=VARCHAR},
+      menu_link = #{record.menuLink,jdbcType=VARCHAR},
+      security_name = #{record.securityName,jdbcType=VARCHAR},
+      m1 = #{record.m1,jdbcType=VARCHAR},
+      m2 = #{record.m2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bobo.pojo.Menu" >
+    update t_menu
+    <set >
+      <if test="parentMenuId != null" >
+        parent_menu_id = #{parentMenuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDesc != null" >
+        menu_desc = #{menuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLink != null" >
+        menu_link = #{menuLink,jdbcType=VARCHAR},
+      </if>
+      <if test="securityName != null" >
+        security_name = #{securityName,jdbcType=VARCHAR},
+      </if>
+      <if test="m1 != null" >
+        m1 = #{m1,jdbcType=VARCHAR},
+      </if>
+      <if test="m2 != null" >
+        m2 = #{m2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bobo.pojo.Menu" >
+    update t_menu
+    set parent_menu_id = #{parentMenuId,jdbcType=INTEGER},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_desc = #{menuDesc,jdbcType=VARCHAR},
+      menu_link = #{menuLink,jdbcType=VARCHAR},
+      security_name = #{securityName,jdbcType=VARCHAR},
+      m1 = #{m1,jdbcType=VARCHAR},
+      m2 = #{m2,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
+  </update>
+</mapper>
